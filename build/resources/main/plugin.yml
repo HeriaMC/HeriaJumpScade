@@ -1,0 +1,4 @@
+name: HeriaJumpScade
+version: 1.0.0
+main: fr.heriamc.games.jumpscade.JumpScadeAddon
+depend: [HeriaGameEngine]

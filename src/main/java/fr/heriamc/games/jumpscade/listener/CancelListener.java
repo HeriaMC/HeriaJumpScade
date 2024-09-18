@@ -3,7 +3,6 @@ package fr.heriamc.games.jumpscade.listener;
 import fr.heriamc.bukkit.game.GameState;
 import fr.heriamc.games.api.pool.GameManager;
 import fr.heriamc.games.engine.utils.MaterialUtils;
-import fr.heriamc.games.jumpscade.JumpScadeAddon;
 import fr.heriamc.games.jumpscade.JumpScadeGame;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -18,14 +17,30 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
+import java.util.EnumSet;
+
 public record CancelListener(GameManager<JumpScadeGame> gameManager) implements Listener {
+
+    private static final EnumSet<EntityDamageEvent.DamageCause> damageCauses = EnumSet.of(
+            EntityDamageEvent.DamageCause.VOID,
+            EntityDamageEvent.DamageCause.FALL,
+            EntityDamageEvent.DamageCause.SUFFOCATION,
+            EntityDamageEvent.DamageCause.FALLING_BLOCK,
+            EntityDamageEvent.DamageCause.LAVA,
+            EntityDamageEvent.DamageCause.FIRE,
+            EntityDamageEvent.DamageCause.FIRE_TICK,
+            EntityDamageEvent.DamageCause.DROWNING,
+            EntityDamageEvent.DamageCause.BLOCK_EXPLOSION,
+            EntityDamageEvent.DamageCause.ENTITY_EXPLOSION,
+            EntityDamageEvent.DamageCause.LIGHTNING,
+            EntityDamageEvent.DamageCause.MAGIC,
+            EntityDamageEvent.DamageCause.POISON,
+            EntityDamageEvent.DamageCause.WITHER
+    );
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getClickedBlock() == null) return;
-
-        //USELESS ?
-        // if (action == Action.RIGHT_CLICK_BLOCK || action == Action.LEFT_CLICK_BLOCK) return;
 
         var block = event.getClickedBlock();
 
@@ -44,14 +59,23 @@ public record CancelListener(GameManager<JumpScadeGame> gameManager) implements 
             event.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityDamageEvent(EntityDamageEvent event) {
-        if (event.getEntity() instanceof Player player)
-            gameManager.getGame(player, game ->
-                    game.checkGameState(gameState -> switch (gameState) {
-                        case LOADING_IN_PROGRESS, LOADING, WAIT, STARTING, END -> () -> event.setCancelled(true);
-                        case ALWAYS_PLAYING, IN_GAME -> () -> event.setCancelled(false);
-                    }));
+        if (event.getEntity() instanceof Player player) {
+            var game = gameManager.getNullableGame(player);
+
+            if (game == null || !game.containsPlayer(player)) return;
+
+            if (damageCauses.contains(event.getCause())) {
+                event.setCancelled(true);
+                return;
+            }
+
+            switch (game.getState()) {
+                case LOADING_IN_PROGRESS, LOADING, WAIT, STARTING, END -> event.setCancelled(true);
+                case ALWAYS_PLAYING, IN_GAME -> event.setCancelled(false);
+            }
+        }
     }
 
     @EventHandler
@@ -62,9 +86,8 @@ public record CancelListener(GameManager<JumpScadeGame> gameManager) implements 
 
     @EventHandler
     public void onCreatureSpawn(CreatureSpawnEvent event) {
-        if (event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.CUSTOM)) return;
-
-        event.setCancelled(true);
+        if (event.getSpawnReason() != CreatureSpawnEvent.SpawnReason.CUSTOM)
+            event.setCancelled(true);
     }
 
     @EventHandler

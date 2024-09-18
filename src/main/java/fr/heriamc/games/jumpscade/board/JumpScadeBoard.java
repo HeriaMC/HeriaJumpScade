@@ -6,7 +6,7 @@ import fr.heriamc.games.jumpscade.player.JumpScadePlayer;
 
 public class JumpScadeBoard extends GameBoard<JumpScadeGame, JumpScadePlayer> {
 
-    private int playerCount, kill, death, countdown;
+    private int playerCount, kill, death, countdown, itemCountdown;
     private String ratio;
 
     public JumpScadeBoard(JumpScadeGame game, JumpScadePlayer gamePlayer) {
@@ -17,6 +17,7 @@ public class JumpScadeBoard extends GameBoard<JumpScadeGame, JumpScadePlayer> {
     public void reloadData() {
         this.playerCount = game.getSize();
         this.countdown = game.getWaitingRoom().getCountdownTask().getSecondsLeft().get();
+        this.itemCountdown = game.getGameCycleTask().getTimer();
         this.kill = gamePlayer.getKills();
         this.death = gamePlayer.getDeaths();
         this.ratio = gamePlayer.getRatio();
@@ -47,14 +48,21 @@ public class JumpScadeBoard extends GameBoard<JumpScadeGame, JumpScadePlayer> {
             }
 
             case END, IN_GAME -> {
+
+                /*
+                    Si 1vs1 afficher une flèche
+                    ex: Adversaire : ⬆ ⬇ =
+                 */
+
                 objectiveSign.setLine(0, "§1");
-                objectiveSign.setLine(1, "§8■ §7Tué(s) : §c" + kill);
-                objectiveSign.setLine(2, "§8■ §7Mort(s) : §c" + death);
-                objectiveSign.setLine(3, "§8■ §7Ratio : §c" + ratio);
-                objectiveSign.setLine(4, "§2");
-                objectiveSign.setLine(5,  "§8■ §7Connectés : §e" + playerCount + "§7/§e" + game.getGameSize().getMaxPlayer());
-                objectiveSign.setLine(6, "§3");
-                objectiveSign.setLine(7, ip);
+                objectiveSign.setLine(1, "§8■ §7Item dans : §6" + itemCountdown + "s");
+                objectiveSign.setLine(2, "§8■ §7Tué(s) : §c" + kill);
+                objectiveSign.setLine(3, "§8■ §7Mort(s) : §c" + death);
+                objectiveSign.setLine(4, "§8■ §7Ratio : §c" + ratio);
+                objectiveSign.setLine(5, "§2");
+                objectiveSign.setLine(6,  "§8■ §7Connectés : §e" + playerCount + "§7/§e" + game.getGameSize().getMaxPlayer());
+                objectiveSign.setLine(7, "§3");
+                objectiveSign.setLine(8, ip);
             }
         }
 

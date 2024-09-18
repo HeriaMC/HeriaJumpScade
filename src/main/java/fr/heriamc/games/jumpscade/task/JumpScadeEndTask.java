@@ -2,6 +2,7 @@ package fr.heriamc.games.jumpscade.task;
 
 import fr.heriamc.bukkit.game.GameState;
 import fr.heriamc.games.api.GameApi;
+import fr.heriamc.games.engine.utils.concurrent.BukkitThreading;
 import fr.heriamc.games.engine.utils.task.CountdownTask;
 import fr.heriamc.games.engine.utils.task.GameCountdownTask;
 import fr.heriamc.games.jumpscade.JumpScadeGame;
@@ -14,6 +15,7 @@ public class JumpScadeEndTask extends GameCountdownTask<JumpScadeGame> {
 
     @Override
     public void onStart() {
+        BukkitThreading.runTask(() -> game.getGameCycleTask().cancel());
         game.setState(GameState.END);
 
         game.getFirstTeamAlive().ifPresent(team -> {

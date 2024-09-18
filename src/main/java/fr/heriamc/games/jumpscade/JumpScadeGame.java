@@ -9,6 +9,7 @@ import fr.heriamc.games.jumpscade.player.JumpScadeTeam;
 import fr.heriamc.games.jumpscade.setting.JumpScadeMapManager;
 import fr.heriamc.games.jumpscade.setting.JumpScadeSettings;
 import fr.heriamc.games.jumpscade.task.JumpScadeEndTask;
+import fr.heriamc.games.jumpscade.task.JumpScadeGameCycleTask;
 import fr.heriamc.games.jumpscade.waiting.JumpScadeWaitingRoom;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ import java.util.UUID;
 public class JumpScadeGame extends Game<JumpScadePlayer, JumpScadeTeam, JumpScadeSettings> {
 
     private final JumpScadeWaitingRoom waitingRoom;
+    private final JumpScadeGameCycleTask gameCycleTask;
     private final JumpScadeEndTask endTask;
 
     private Region winRegion;
@@ -28,6 +30,7 @@ public class JumpScadeGame extends Game<JumpScadePlayer, JumpScadeTeam, JumpScad
         super("jumpscade", new JumpScadeSettings(GameSizeTemplate.SIZE_1V1.toGameSize()));
         this.settings.setGameMapManager(new JumpScadeMapManager(this));
         this.waitingRoom = new JumpScadeWaitingRoom(this);
+        this.gameCycleTask = new JumpScadeGameCycleTask(this, 10);
         this.endTask = new JumpScadeEndTask(this);
     }
 

@@ -36,6 +36,13 @@ public enum JumpScadeGameItems {
         return items.stream();
     }
 
+    /*
+        Envoyer un message avec nom de l'item + jouer un son
+        ex: "Vous avez reçus Boule de neige ect"
+
+        Verifier si la hotbar n'es pas remplie si remplie ne donne pas d'item
+     */
+
     public static void giveRandomItem(JumpScadePlayer gamePlayer) {
         CollectionUtils.random(items)
                 .map(JumpScadeGameItems::getItemStack)

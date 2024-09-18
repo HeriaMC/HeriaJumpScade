@@ -44,6 +44,7 @@ public class JumpScadeStartingTask extends GameCountdownTask<JumpScadeGame> {
     @Override
     public void onComplete() {
         game.setState(GameState.IN_GAME);
+        game.getGameCycleTask().startTask();
         game.getPlayers().values().forEach(settings.getBoardManager()::update);
 
         game.fillTeam();

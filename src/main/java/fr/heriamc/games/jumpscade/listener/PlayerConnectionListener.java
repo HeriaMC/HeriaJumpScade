@@ -44,18 +44,6 @@ public record PlayerConnectionListener(JumpScadePool pool) implements Listener {
     }
 
     @EventHandler
-    public void onMove(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-
-        if (event.getTo().getY() == 0) {
-            /*
-            TELEPORT OR DIE
-
-             */
-        }
-    }
-
-    @EventHandler
     public void onLeave(GamePlayerLeaveEvent<JumpScadeGame, JumpScadePlayer> event) {
         var game = event.getGame();
         var gamePlayer = event.getGamePlayer();

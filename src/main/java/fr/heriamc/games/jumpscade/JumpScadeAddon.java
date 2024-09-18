@@ -3,9 +3,7 @@ package fr.heriamc.games.jumpscade;
 import fr.heriamc.games.api.addon.GameAddon;
 import fr.heriamc.games.engine.waitingroom.gui.GameTeamSelectorGui;
 import fr.heriamc.games.jumpscade.command.SetupCommand;
-import fr.heriamc.games.jumpscade.listener.CancelListener;
-import fr.heriamc.games.jumpscade.listener.PlayerConnectionListener;
-import fr.heriamc.games.jumpscade.listener.PlayerInteractListener;
+import fr.heriamc.games.jumpscade.listener.*;
 import fr.heriamc.games.jumpscade.player.JumpScadePlayer;
 import fr.heriamc.games.jumpscade.pool.JumpScadePool;
 import lombok.Getter;
@@ -25,7 +23,10 @@ public class JumpScadeAddon extends GameAddon<JumpScadePool> {
         registerListener(
                 new PlayerConnectionListener(pool),
                 new CancelListener(pool.getGamesManager()),
-                new PlayerInteractListener(this)
+                new PlayerInteractListener(this),
+                new PlayerMoveListener(pool.getGamesManager()),
+                new ProjectileListener(this),
+                new PlayerDamageListener(pool.getGamesManager())
         );
 
         registerCommand(new SetupCommand(this));

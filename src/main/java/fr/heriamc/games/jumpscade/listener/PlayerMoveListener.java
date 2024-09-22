@@ -1,5 +1,6 @@
 package fr.heriamc.games.jumpscade.listener;
 
+import fr.heriamc.bukkit.game.GameState;
 import fr.heriamc.games.api.pool.GameManager;
 import fr.heriamc.games.jumpscade.JumpScadeGame;
 import org.bukkit.event.EventHandler;
@@ -13,14 +14,19 @@ public record PlayerMoveListener(GameManager<JumpScadeGame> gameManager) impleme
         var player = event.getPlayer();
         var game = gameManager.getNullableGame(player);
 
-        if (event.getTo().getY() >= 0 || game == null) return;
+        if (game == null) return;
 
-        System.out.println("c");
+        var winRegion = game.getWinRegion();
         var gamePlayer = game.getNullablePlayer(player);
 
-        // Null check of gamePlayer is maybe useless ??
         if (gamePlayer == null || gamePlayer.isSpectator()) return;
-        System.out.println("a");
+
+        if (game.getState() == GameState.IN_GAME && winRegion.contains(gamePlayer)) {
+            winRegion.onEnter(gamePlayer);
+            return; // USELESS ?
+        }
+
+        if (event.getTo().getY() >= 0) return;
 
         switch (game.getState()) {
             case WAIT, STARTING -> game.getWaitingRoom().teleport(gamePlayer);

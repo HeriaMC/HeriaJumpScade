@@ -4,7 +4,6 @@ import fr.heriamc.bukkit.game.GameState;
 import fr.heriamc.games.engine.region.GameRegion;
 import fr.heriamc.games.engine.region.RegionObserver;
 import fr.heriamc.games.engine.utils.concurrent.BukkitThreading;
-import fr.heriamc.games.engine.utils.concurrent.MultiThreading;
 import fr.heriamc.games.jumpscade.JumpScadeGame;
 import fr.heriamc.games.jumpscade.player.JumpScadePlayer;
 import net.minecraft.server.v1_8_R3.*;
@@ -15,49 +14,44 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 
 public class JumpScadeWinRegion extends GameRegion<JumpScadeGame> implements RegionObserver<JumpScadePlayer> {
 
-    // DEBUG: NEED TO BE CHANGED
-    private final Map<JumpScadePlayer, UUID> in;
+    private JumpScadePlayer winner;
 
     public JumpScadeWinRegion(JumpScadeGame game, Location minLocation, Location maxLocation) {
         super(game, "WinRegion", minLocation, maxLocation);
-        // DEBUG: NEED TO BE CHANGED
-        this.in = new HashMap<>();
-        MultiThreading.schedule(() -> {
-            game.getPlayers().values().forEach(gamePlayer -> {
-                if (contains(gamePlayer) && !in.containsKey(gamePlayer))
-                    onEnter(gamePlayer);
-                else if (!contains(gamePlayer) && in.containsKey(gamePlayer))
-                    onExit(gamePlayer);
-            });
-        }, 50, 50, TimeUnit.MILLISECONDS);
+        this.winner = null;
     }
 
     @Override
     public void onEnter(JumpScadePlayer gamePlayer) {
-        if (!game.getState().is(GameState.IN_GAME)) return;
+        if (game.getState() != GameState.IN_GAME) return;
 
-        in.putIfAbsent(gamePlayer, gamePlayer.getUuid());
-
-        if (!game.getEndTask().isStarted())
-            game.getEndTask().run();
+        if (winner == null) {
+            this.winner = gamePlayer;
+            game.broadcast("NOUS AVONS UN GAGNANT ! " + gamePlayer.getName());
+        }
+        else return;
 
         var location = gamePlayer.getLocation();
+        var team = gamePlayer.getTeam();
 
-        BukkitThreading.runTask(() -> game.getAlivePlayers().stream()
-                .filter(Predicate.not(gamePlayer::equals))
-                .forEach(jumpScadePlayer -> {
-                    jumpScadePlayer.setSpectator(true);
-                    jumpScadePlayer.getPlayer().setGameMode(GameMode.SPECTATOR);
-                    jumpScadePlayer.teleport(location);
-                }));
+        BukkitThreading.runTask(() -> {
+            game.getAlivePlayers().stream()
+                    .filter(Predicate.not(gamePlayer::equals))
+                    .forEach(jumpScadePlayer -> {
+                        if (team.isNotMember(jumpScadePlayer))
+                            jumpScadePlayer.setSpectator(true);
+
+                        jumpScadePlayer.getPlayer().setGameMode(GameMode.SPECTATOR);
+                        jumpScadePlayer.teleport(location);
+                    });
+
+            if (!game.getEndTask().isStarted())
+                game.getEndTask().run();
+        });
 
         spawnFirework(location, game.getPlayers().values());
     }
@@ -90,9 +84,6 @@ public class JumpScadeWinRegion extends GameRegion<JumpScadeGame> implements Reg
     }
 
     @Override
-    public void onExit(JumpScadePlayer gamePlayer) {
-        in.remove(gamePlayer);
-        gamePlayer.sendMessage("Vous êtes sortit de la zone");
-    }
+    public void onExit(JumpScadePlayer gamePlayer) {}
 
 }

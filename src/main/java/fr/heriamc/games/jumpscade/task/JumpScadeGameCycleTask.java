@@ -1,50 +1,66 @@
 package fr.heriamc.games.jumpscade.task;
 
-import fr.heriamc.bukkit.game.GameState;
-import fr.heriamc.games.engine.utils.concurrent.BukkitThreading;
+import fr.heriamc.games.engine.utils.CollectionUtils;
+import fr.heriamc.games.engine.utils.task.cycle.CycleTask;
+import fr.heriamc.games.engine.utils.task.cycle.GameCycleTask;
 import fr.heriamc.games.jumpscade.JumpScadeGame;
+import fr.heriamc.games.jumpscade.player.JumpScadePlayer;
 import fr.heriamc.games.jumpscade.player.items.JumpScadeGameItems;
-import lombok.Getter;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
-@Getter
-public class JumpScadeGameCycleTask extends BukkitRunnable {
+import java.util.concurrent.ThreadLocalRandom;
 
-    private final JumpScadeGame game;
-    private final int duration;
+public class JumpScadeGameCycleTask extends GameCycleTask<JumpScadeGame> {
 
-    private int timer;
+    private static final ItemStack arrow = new ItemStack(Material.ARROW);
 
-    public JumpScadeGameCycleTask(JumpScadeGame game, int duration) {
-        this.game = game;
-        this.duration = duration;
-        this.timer = duration;
+    public JumpScadeGameCycleTask(JumpScadeGame game) {
+        super(10, game);
     }
 
     @Override
-    public void run() {
-        if (game.getState() != GameState.IN_GAME) {
-            cancel();
-            return;
-        }
-
-        if (timer == 0) {
-            game.getAlivePlayers()
-                    .forEach(JumpScadeGameItems::giveRandomItem);
-
-            resetTimer();
-            return;
-        }
-
-        this.timer -= 1;
+    public void onStart() {
+        game.getAlivePlayers().forEach(JumpScadePlayer::cleanUp);
     }
 
-    public void startTask() {
-        BukkitThreading.runTaskTimer(this, 0, 20);
+    @Override
+    public void onNext(CycleTask cycleTask) {
+        game.getAlivePlayers().forEach(gamePlayer -> {
+            var randomGameItem = CollectionUtils.oldRandom(JumpScadeGameItems.items).orElseThrow();
+            var inventory = gamePlayer.getInventory();
+
+            if (randomGameItem == JumpScadeGameItems.BOW) {
+
+                if (inventory.contains(Material.BOW)) {
+                    inventory.addItem(arrow);
+                    return;
+                }
+
+                inventory.addItem(randomGameItem.getItemStack());
+
+                if (!inventory.contains(Material.ARROW))
+                    inventory.addItem(arrow);
+
+                return;
+            }
+
+            var random = ThreadLocalRandom.current().nextInt(1, 4);
+            var randomItem = randomGameItem.getItemStack().clone();
+
+            randomItem.setAmount(random);
+            inventory.addItem(randomItem);
+        });
     }
 
-    private void resetTimer() {
-        this.timer = duration;
+    @Override
+    public void onComplete() {
+        game.getAlivePlayers().forEach(JumpScadePlayer::cleanUp);
+    }
+
+    @Override
+    public void onCancel() {
+        System.out.println("cancel");
     }
 
 }

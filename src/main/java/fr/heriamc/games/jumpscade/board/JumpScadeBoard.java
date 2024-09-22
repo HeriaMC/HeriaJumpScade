@@ -17,7 +17,7 @@ public class JumpScadeBoard extends GameBoard<JumpScadeGame, JumpScadePlayer> {
     public void reloadData() {
         this.playerCount = game.getSize();
         this.countdown = game.getWaitingRoom().getCountdownTask().getSecondsLeft().get();
-        this.itemCountdown = game.getGameCycleTask().getTimer();
+        this.itemCountdown = game.getGameCycleTask().getSecondsLeft().get();
         this.kill = gamePlayer.getKills();
         this.death = gamePlayer.getDeaths();
         this.ratio = gamePlayer.getRatio();

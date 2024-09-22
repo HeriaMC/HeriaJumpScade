@@ -2,10 +2,10 @@ package fr.heriamc.games.jumpscade.task;
 
 import fr.heriamc.bukkit.game.GameState;
 import fr.heriamc.games.api.GameApi;
-import fr.heriamc.games.engine.utils.concurrent.BukkitThreading;
-import fr.heriamc.games.engine.utils.task.CountdownTask;
-import fr.heriamc.games.engine.utils.task.GameCountdownTask;
+import fr.heriamc.games.engine.utils.task.countdown.CountdownTask;
+import fr.heriamc.games.engine.utils.task.countdown.GameCountdownTask;
 import fr.heriamc.games.jumpscade.JumpScadeGame;
+import fr.heriamc.games.jumpscade.setting.message.JumpScadeMessages;
 
 public class JumpScadeEndTask extends GameCountdownTask<JumpScadeGame> {
 
@@ -15,12 +15,10 @@ public class JumpScadeEndTask extends GameCountdownTask<JumpScadeGame> {
 
     @Override
     public void onStart() {
-        BukkitThreading.runTask(() -> game.getGameCycleTask().cancel());
+        game.getGameCycleTask().end();
         game.setState(GameState.END);
 
         game.getFirstTeamAlive().ifPresent(team -> {
-            team.getMembers().forEach(gamePlayer -> gamePlayer.sendMessage("Vous êtes dans l'équipe gagnante ! uwu"));
-
             game.broadcast(
                     "---------------------------",
                     "",
@@ -34,7 +32,7 @@ public class JumpScadeEndTask extends GameCountdownTask<JumpScadeGame> {
     @Override
     public void onNext(CountdownTask task) {
         switch (task.getSecondsLeft().get()) {
-            case 5, 10, 15, 20 -> game.broadcast("This game gonna be deleted in " + task.getSecondsLeft().get() + " seconds !");
+            case 5, 10, 15, 20 -> game.broadcast(JumpScadeMessages.END_BACK_TO_HUB.getMessage(task.getSecondsLeft().get()));
         }
     }
 

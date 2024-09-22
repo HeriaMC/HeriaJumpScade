@@ -1,8 +1,8 @@
 package fr.heriamc.games.jumpscade.task;
 
 import fr.heriamc.bukkit.game.GameState;
-import fr.heriamc.games.engine.utils.task.CountdownTask;
-import fr.heriamc.games.engine.utils.task.GameCountdownTask;
+import fr.heriamc.games.engine.utils.task.countdown.CountdownTask;
+import fr.heriamc.games.engine.utils.task.countdown.GameCountdownTask;
 import fr.heriamc.games.jumpscade.JumpScadeGame;
 import fr.heriamc.games.jumpscade.player.JumpScadeTeam;
 import fr.heriamc.games.jumpscade.setting.JumpScadeSettings;
@@ -44,7 +44,7 @@ public class JumpScadeStartingTask extends GameCountdownTask<JumpScadeGame> {
     @Override
     public void onComplete() {
         game.setState(GameState.IN_GAME);
-        game.getGameCycleTask().startTask();
+        game.getGameCycleTask().run();
         game.getPlayers().values().forEach(settings.getBoardManager()::update);
 
         game.fillTeam();

@@ -1,11 +1,11 @@
 package fr.heriamc.games.jumpscade;
 
 import fr.heriamc.games.engine.Game;
-import fr.heriamc.games.engine.region.Region;
 import fr.heriamc.games.engine.team.GameTeamColor;
 import fr.heriamc.games.engine.utils.GameSizeTemplate;
 import fr.heriamc.games.jumpscade.player.JumpScadePlayer;
 import fr.heriamc.games.jumpscade.player.JumpScadeTeam;
+import fr.heriamc.games.jumpscade.region.JumpScadeWinRegion;
 import fr.heriamc.games.jumpscade.setting.JumpScadeMapManager;
 import fr.heriamc.games.jumpscade.setting.JumpScadeSettings;
 import fr.heriamc.games.jumpscade.task.JumpScadeEndTask;
@@ -24,13 +24,13 @@ public class JumpScadeGame extends Game<JumpScadePlayer, JumpScadeTeam, JumpScad
     private final JumpScadeGameCycleTask gameCycleTask;
     private final JumpScadeEndTask endTask;
 
-    private Region winRegion;
+    private JumpScadeWinRegion winRegion;
 
     public JumpScadeGame() {
         super("jumpscade", new JumpScadeSettings(GameSizeTemplate.SIZE_1V1.toGameSize()));
         this.settings.setGameMapManager(new JumpScadeMapManager(this));
         this.waitingRoom = new JumpScadeWaitingRoom(this);
-        this.gameCycleTask = new JumpScadeGameCycleTask(this, 10);
+        this.gameCycleTask = new JumpScadeGameCycleTask(this);
         this.endTask = new JumpScadeEndTask(this);
     }
 

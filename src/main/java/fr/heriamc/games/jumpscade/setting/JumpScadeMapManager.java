@@ -40,8 +40,8 @@ public class JumpScadeMapManager extends GameMapManager<JumpScadeGame, SlimeMap,
 
             pos1.setWorld(slimeMap.getWorld());
             pos2.setWorld(slimeMap.getWorld());
-            game.setWinRegion(new JumpScadeWinRegion(game, configuration.getWinRegionPos1(), configuration.getWinRegionPos2()));
 
+            game.setWinRegion(new JumpScadeWinRegion(game, configuration.getWinRegionPos1(), configuration.getWinRegionPos2()));
             game.getTeam(GameTeamColor.RED).ifPresent(team -> team.setSpawnPoint(configuration.getRed().setWorld(slimeMap)));
             game.getTeam(GameTeamColor.BLUE).ifPresent(team -> team.setSpawnPoint(configuration.getBlue().setWorld(slimeMap)));
 

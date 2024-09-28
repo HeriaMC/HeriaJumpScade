@@ -2,6 +2,8 @@ package fr.heriamc.games.jumpscade.setting.message;
 
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
 public enum JumpScadeMessages {
 
@@ -12,8 +14,15 @@ public enum JumpScadeMessages {
 
     DEATH_MESSAGE ("§fVous avez été tué par §c%s §f%s"),
     KILL_MESSAGE ("§fTu as tué §c%s §f!"),
-    VOID_DEATH_MESSAGE ("§c%s §fa gliser chef"),
+    VOID_DEATH_MESSAGE ("§c%s §fest tombé..."),
 
+    END_VICTORY_MESSAGE (
+            "§7§m---------------------------",
+            "",
+            "Vainqueur: %s",
+            "Récompenses: %d ⛃",
+            "",
+            "§7§m---------------------------"),
     END_BACK_TO_HUB ("§fRetour au hub dans §e%d §fsecondes !");
 
     private String message;
@@ -33,6 +42,10 @@ public enum JumpScadeMessages {
 
     public String getMessage(Object... objects) {
         return PREFIX.message + message.formatted(objects);
+    }
+
+    public String[] getMessages(Object... objects) {
+        return Arrays.stream(messages).map(string -> string.formatted(objects)).toArray(String[]::new);
     }
 
     public String getMessageWithoutPrefix() {

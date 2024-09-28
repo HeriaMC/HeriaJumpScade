@@ -29,10 +29,7 @@ public class JumpScadeWinRegion extends GameRegion<JumpScadeGame> implements Reg
     public void onEnter(JumpScadePlayer gamePlayer) {
         if (game.getState() != GameState.IN_GAME) return;
 
-        if (winner == null) {
-            this.winner = gamePlayer;
-            game.broadcast("NOUS AVONS UN GAGNANT ! " + gamePlayer.getName());
-        }
+        if (winner == null) this.winner = gamePlayer;
         else return;
 
         var location = gamePlayer.getLocation();
@@ -56,6 +53,9 @@ public class JumpScadeWinRegion extends GameRegion<JumpScadeGame> implements Reg
         spawnFirework(location, game.getPlayers().values());
     }
 
+    /*
+        NEED TO BE REWORKED DO A BETTER END ANIMATION...
+     */
     public void spawnFirework(Location location, Collection<JumpScadePlayer> collection) {
         var firework = new ItemStack(org.bukkit.Material.FIREWORK);
         var fireworkMeta = (FireworkMeta) firework.getItemMeta();

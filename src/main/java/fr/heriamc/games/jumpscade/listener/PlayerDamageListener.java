@@ -36,13 +36,9 @@ public record PlayerDamageListener(GameManager<JumpScadeGame> gameManager) imple
      */
     private void handleDeath(JumpScadeGame game, JumpScadePlayer gamePlayer) {
         gamePlayer.getPlayer().spigot().respawn();
-
-        var lastHitter = gamePlayer.getLastHitter().getKey();
+        gamePlayer.getInventory().clear();
 
         sendDeathMessage(game, gamePlayer);
-
-        if (lastHitter != null)
-            lastHitter.addKill();
 
         gamePlayer.addDeath();
         gamePlayer.getLastHitter().setBothNull();
@@ -60,6 +56,7 @@ public record PlayerDamageListener(GameManager<JumpScadeGame> gameManager) imple
         var killer = lastHitter.getKey();
         var projectile = lastHitter.getValue();
 
+        killer.addKill();
         killer.sendMessage(JumpScadeMessages.KILL_MESSAGE.getMessage(gamePlayer.getName()));
         gamePlayer.sendMessage(JumpScadeMessages.DEATH_MESSAGE.getMessage(killer.getName(), func().apply(projectile)));
     }

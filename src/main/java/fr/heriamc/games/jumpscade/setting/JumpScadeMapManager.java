@@ -47,7 +47,7 @@ public class JumpScadeMapManager extends GameMapManager<JumpScadeGame, SlimeMap,
 
             slimeMap.getWorld().setGameRuleValue("doFireTick", "false");
 
-            getGame().setState(GameState.WAIT);
+            game.setState(GameState.WAIT);
         });
     }
 

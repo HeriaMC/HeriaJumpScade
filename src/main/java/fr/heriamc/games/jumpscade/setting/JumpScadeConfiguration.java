@@ -15,16 +15,4 @@ public class JumpScadeConfiguration {
 
     private Location winRegionPos1, winRegionPos2;
 
-    @Override
-    public String toString() {
-        return "JumpScadeConfiguration{" +
-                "blue=" + blue +
-                ", templateName='" + templateName + '\'' +
-                ", spawn=" + spawn +
-                ", red=" + red +
-                ", pos1=" + winRegionPos1 +
-                ", pos2=" + winRegionPos2 +
-                '}';
-    }
-
 }

@@ -26,41 +26,43 @@ public class JumpScadeGameCycleTask extends GameCycleTask<JumpScadeGame> {
 
     @Override
     public void onNext(CycleTask cycleTask) {
-        game.getAlivePlayers().forEach(gamePlayer -> {
-            var randomGameItem = CollectionUtils.oldRandom(JumpScadeGameItems.items).orElseThrow();
-            var inventory = gamePlayer.getInventory();
+        game.getAlivePlayers()
+                .forEach(this::giveRandomItem);
+    }
 
-            if (randomGameItem == JumpScadeGameItems.BOW) {
+    private void giveRandomItem(JumpScadePlayer gamePlayer) {
+        var randomGameItem = CollectionUtils.oldRandom(JumpScadeGameItems.items).orElseThrow();
+        var inventory = gamePlayer.getInventory();
 
-                if (inventory.contains(Material.BOW)) {
-                    inventory.addItem(arrow);
-                    return;
-                }
+        if (randomGameItem == JumpScadeGameItems.BOW) {
 
-                inventory.addItem(randomGameItem.getItemStack());
-
-                if (!inventory.contains(Material.ARROW))
-                    inventory.addItem(arrow);
-
+            if (inventory.contains(Material.BOW)) {
+                inventory.addItem(arrow);
                 return;
             }
 
-            var random = ThreadLocalRandom.current().nextInt(1, 4);
-            var randomItem = randomGameItem.getItemStack().clone();
+            inventory.addItem(randomGameItem.getItemStack());
 
-            randomItem.setAmount(random);
-            inventory.addItem(randomItem);
-        });
+            if (!inventory.contains(Material.ARROW))
+                inventory.addItem(arrow);
+
+            return;
+        }
+
+        var random = ThreadLocalRandom.current().nextInt(1, 4);
+        var randomItem = randomGameItem.getItemStack().clone();
+
+        randomItem.setAmount(random);
+        inventory.addItem(randomItem);
     }
 
     @Override
     public void onComplete() {
-        game.getAlivePlayers().forEach(JumpScadePlayer::cleanUp);
+        game.getAlivePlayers()
+                .forEach(JumpScadePlayer::cleanUp);
     }
 
     @Override
-    public void onCancel() {
-        System.out.println("cancel");
-    }
+    public void onCancel() {}
 
 }

@@ -2,7 +2,6 @@ package fr.heriamc.games.jumpscade;
 
 import fr.heriamc.games.api.addon.GameAddon;
 import fr.heriamc.games.engine.waitingroom.gui.GameTeamSelectorGui;
-import fr.heriamc.games.jumpscade.command.SetupCommand;
 import fr.heriamc.games.jumpscade.listener.*;
 import fr.heriamc.games.jumpscade.player.JumpScadePlayer;
 import fr.heriamc.games.jumpscade.pool.JumpScadePool;
@@ -29,7 +28,7 @@ public class JumpScadeAddon extends GameAddon<JumpScadePool> {
                 new PlayerDamageListener(pool.getGamesManager())
         );
 
-        registerCommand(new SetupCommand(this));
+        //registerCommand(new SetupCommand(this));
     }
 
     public void openTeamSelector(Player player) {

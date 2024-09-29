@@ -23,6 +23,7 @@ public enum JumpScadeMessages {
             "Récompenses: %d ⛃",
             "",
             "§7§m---------------------------"),
+
     END_BACK_TO_HUB ("§fRetour au hub dans §e%d §fsecondes !");
 
     private String message;

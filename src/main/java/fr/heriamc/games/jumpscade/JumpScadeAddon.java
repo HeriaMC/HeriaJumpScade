@@ -30,7 +30,8 @@ public class JumpScadeAddon extends GameAddon<JumpScadePool> {
                 new PlayerInteractListener(this),
                 new PlayerMoveListener(pool.getGamesManager()),
                 new ProjectileListener(pool.getGamesManager()),
-                new PlayerDamageListener(pool.getGamesManager())
+                new PlayerDamageListener(pool.getGamesManager()),
+                new PlayerChatListener(pool.getGamesManager())
         );
 
         //registerCommand(new SetupCommand(this));

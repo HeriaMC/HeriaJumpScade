@@ -18,8 +18,10 @@ public class JumpScadeEndTask extends GameCountdownTask<JumpScadeGame> {
         game.getGameCycleTask().end();
         game.setState(GameState.END);
 
-        game.getFirstTeamAlive().ifPresent(team ->
-                game.broadcast(JumpScadeMessages.END_VICTORY_MESSAGE.getMessages(team.getFormattedMembersNames(), 0)));
+        game.getFirstTeamAlive().ifPresent(team -> {
+            team.broadcast(JumpScadeMessages.END_VICTORY_MESSAGE.getMessages("§6§lVICTOIRE §f! Tu as remporté la partie."));
+            game.broadcast(team::isNotMember, JumpScadeMessages.END_VICTORY_MESSAGE.getMessages("§c§lDÉFAITE §f! Tu as perdu la partie."));
+        });
     }
 
     @Override

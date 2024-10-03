@@ -18,12 +18,12 @@ public enum JumpScadeMessages {
     VOID_DEATH_MESSAGE ("§c%s §fest tombé..."),
 
     END_VICTORY_MESSAGE (
-            "§7§m---------------------------",
+            "§m-------------------------------------------",
             "",
-            "Vainqueur: %s",
-            "Récompenses: %d ⛃",
+            "%s",
+            "§fTu vas être redirigé vers le hub dans quelques secondes...",
             "",
-            "§7§m---------------------------"),
+            "§m-------------------------------------------"),
 
     END_BACK_TO_HUB ("§fRetour au hub dans §e%d §fsecondes !");
 

@@ -2,7 +2,8 @@ package fr.heriamc.games.jumpscade.setting.message;
 
 import lombok.Getter;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public enum JumpScadeMessages {
@@ -46,8 +47,20 @@ public enum JumpScadeMessages {
     }
 
     public String[] getMessages(Object... objects) {
-        return Arrays.stream(messages).map(string -> string.formatted(objects)).toArray(String[]::new);
+        List<String> formattedMessages = new ArrayList<>(messages.length);
+        var index = 0;
+
+        for (String message : messages) {
+            if (message.contains("%")) {
+                formattedMessages.add(message.formatted(objects[index]));
+                index++;
+            } else
+                formattedMessages.add(message);
+        }
+
+        return formattedMessages.toArray(String[]::new);
     }
+
 
     public String getMessageWithoutPrefix() {
         return message;

@@ -18,7 +18,8 @@ public class JumpScadeEndTask extends GameCountdownTask<JumpScadeGame> {
         game.getGameCycleTask().end();
         game.setState(GameState.END);
 
-        game.getFirstTeamAlive().ifPresent(team -> game.broadcast(JumpScadeMessages.END_VICTORY_MESSAGE.getMessages(team.getFormattedMembersNames(), 0)));
+        game.getFirstTeamAlive().ifPresent(team ->
+                game.broadcast(JumpScadeMessages.END_VICTORY_MESSAGE.getMessages(team.getFormattedMembersNames(), 0)));
     }
 
     @Override

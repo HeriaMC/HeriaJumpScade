@@ -3,13 +3,14 @@ package fr.heriamc.games.jumpscade.listener;
 import fr.heriamc.games.engine.event.player.GamePlayerJoinEvent;
 import fr.heriamc.games.engine.event.player.GamePlayerLeaveEvent;
 import fr.heriamc.games.jumpscade.JumpScadeGame;
+import fr.heriamc.games.jumpscade.data.JumpScadeDataManager;
 import fr.heriamc.games.jumpscade.player.JumpScadePlayer;
 import fr.heriamc.games.jumpscade.pool.JumpScadePool;
 import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-public record PlayerConnectionListener(JumpScadePool pool) implements Listener {
+public record PlayerConnectionListener(JumpScadeDataManager dataManager, JumpScadePool pool) implements Listener {
 
     @EventHandler
     public void onJoin(GamePlayerJoinEvent<JumpScadeGame, JumpScadePlayer> event) {
@@ -46,8 +47,22 @@ public record PlayerConnectionListener(JumpScadePool pool) implements Listener {
             case IN_GAME -> {
                 if (game.oneTeamAlive())
                     game.getEndTask().run();
+
+                savePlayerData(gamePlayer);
             }
+            case END -> savePlayerData(gamePlayer);
         }
+    }
+
+    private void savePlayerData(JumpScadePlayer gamePlayer) {
+        var gamePlayerData = dataManager.createOrLoad(gamePlayer.getUuid());
+
+        gamePlayerData
+                .updateKills(gamePlayer.getKills())
+                .updateDeaths(gamePlayer.getDeaths());
+
+        dataManager.save(gamePlayerData);
+        dataManager.saveInPersistant(gamePlayerData);
     }
 
 }

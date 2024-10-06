@@ -1,12 +1,14 @@
-package fr.heriamc.games.jumpscade;
+package fr.heriamc.games.jumpscade.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Pair<K, V> {
 
     private K key;
@@ -15,11 +17,6 @@ public class Pair<K, V> {
     /*
         NEED TO BE MOVED IN GAME API
      */
-    public Pair() {
-        this.key = null;
-        this.value = null;
-    }
-
     public void setKeyAndValue(K key, V value) {
         this.key = key;
         this.value = value;

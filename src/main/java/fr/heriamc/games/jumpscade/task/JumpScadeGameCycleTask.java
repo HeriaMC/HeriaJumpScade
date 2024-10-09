@@ -31,8 +31,11 @@ public class JumpScadeGameCycleTask extends GameCycleTask<JumpScadeGame> {
     }
 
     private void giveRandomItem(JumpScadePlayer gamePlayer) {
-        var randomGameItem = CollectionUtils.oldRandom(JumpScadeGameItems.items).orElseThrow();
         var inventory = gamePlayer.getInventory();
+
+        if (inventory.firstEmpty() == -1) return;
+
+        var randomGameItem = CollectionUtils.oldRandom(JumpScadeGameItems.items).orElseThrow();
 
         if (randomGameItem == JumpScadeGameItems.BOW) {
 

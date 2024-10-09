@@ -21,6 +21,7 @@ import java.util.UUID;
 public class JumpScadeGame extends Game<JumpScadePlayer, JumpScadeTeam, JumpScadeSettings> {
 
     private final JumpScadeWaitingRoom waitingRoom;
+
     private final JumpScadeGameCycleTask gameCycleTask;
     private final JumpScadeEndTask endTask;
 

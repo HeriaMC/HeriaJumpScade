@@ -6,13 +6,12 @@ import fr.heriamc.games.engine.utils.concurrent.VirtualThreading;
 import fr.heriamc.games.jumpscade.JumpScadeGame;
 import fr.heriamc.games.jumpscade.data.JumpScadeDataManager;
 import fr.heriamc.games.jumpscade.player.JumpScadePlayer;
-import fr.heriamc.games.jumpscade.pool.JumpScadePool;
 import fr.heriamc.games.jumpscade.utils.NameTag;
 import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-public record PlayerConnectionListener(JumpScadeDataManager dataManager, JumpScadePool pool) implements Listener {
+public record PlayerConnectionListener(JumpScadeDataManager dataManager) implements Listener {
 
     @EventHandler
     public void onJoin(GamePlayerJoinEvent<JumpScadeGame, JumpScadePlayer> event) {

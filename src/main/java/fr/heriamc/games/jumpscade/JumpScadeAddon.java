@@ -25,7 +25,7 @@ public class JumpScadeAddon extends GameAddon<JumpScadePool> {
         pool.loadDefaultGames();
 
         registerListener(
-                new PlayerConnectionListener(dataManager, pool),
+                new PlayerConnectionListener(dataManager),
                 new CancelListener(pool.getGamesManager()),
                 new PlayerInteractListener(this),
                 new PlayerMoveListener(pool.getGamesManager()),

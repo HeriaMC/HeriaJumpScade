@@ -2,8 +2,8 @@ package fr.heriamc.games.jumpscade.player;
 
 import fr.heriamc.games.engine.player.GamePlayer;
 import fr.heriamc.games.engine.team.GameTeam;
+import fr.heriamc.games.engine.utils.Pair;
 import fr.heriamc.games.jumpscade.utils.NameTag;
-import fr.heriamc.games.jumpscade.utils.Pair;
 import lombok.Getter;
 import org.bukkit.entity.EntityType;
 
@@ -28,8 +28,6 @@ public class JumpScadePlayer extends GamePlayer<JumpScadeTeam> {
     }
 
     public void cleanUp() {
-        var player = getPlayer();
-
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);
         player.setHealth(player.getMaxHealth());

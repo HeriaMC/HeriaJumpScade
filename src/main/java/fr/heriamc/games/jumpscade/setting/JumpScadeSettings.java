@@ -1,7 +1,7 @@
 package fr.heriamc.games.jumpscade.setting;
 
+import fr.heriamc.bukkit.game.size.GameSize;
 import fr.heriamc.games.engine.GameSettings;
-import fr.heriamc.games.engine.GameSize;
 import fr.heriamc.games.engine.MiniGame;
 import fr.heriamc.games.engine.board.GameBoard;
 import fr.heriamc.games.engine.board.GameBoardManager;

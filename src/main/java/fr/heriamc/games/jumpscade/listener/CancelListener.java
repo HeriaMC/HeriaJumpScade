@@ -1,6 +1,6 @@
 package fr.heriamc.games.jumpscade.listener;
 
-import fr.heriamc.bukkit.game.GameState;
+import fr.heriamc.api.game.GameState;
 import fr.heriamc.games.api.pool.GameManager;
 import fr.heriamc.games.engine.utils.MaterialUtils;
 import fr.heriamc.games.jumpscade.JumpScadeGame;
@@ -19,24 +19,30 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 
 import java.util.EnumSet;
 
-public record CancelListener(GameManager<JumpScadeGame> gameManager) implements Listener {
+public class CancelListener implements Listener {
 
-    private static final EnumSet<EntityDamageEvent.DamageCause> damageCauses = EnumSet.of(
-            EntityDamageEvent.DamageCause.VOID,
-            EntityDamageEvent.DamageCause.FALL,
-            EntityDamageEvent.DamageCause.SUFFOCATION,
-            EntityDamageEvent.DamageCause.FALLING_BLOCK,
-            EntityDamageEvent.DamageCause.LAVA,
-            EntityDamageEvent.DamageCause.FIRE,
-            EntityDamageEvent.DamageCause.FIRE_TICK,
-            EntityDamageEvent.DamageCause.DROWNING,
-            EntityDamageEvent.DamageCause.BLOCK_EXPLOSION,
-            EntityDamageEvent.DamageCause.ENTITY_EXPLOSION,
-            EntityDamageEvent.DamageCause.LIGHTNING,
-            EntityDamageEvent.DamageCause.MAGIC,
-            EntityDamageEvent.DamageCause.POISON,
-            EntityDamageEvent.DamageCause.WITHER
-    );
+    private final GameManager<JumpScadeGame> gameManager;
+    private final EnumSet<EntityDamageEvent.DamageCause> damageCauses;
+
+    public CancelListener(GameManager<JumpScadeGame> gameManager) {
+        this.gameManager = gameManager;
+        this.damageCauses = EnumSet.of(
+                EntityDamageEvent.DamageCause.VOID,
+                EntityDamageEvent.DamageCause.FALL,
+                EntityDamageEvent.DamageCause.SUFFOCATION,
+                EntityDamageEvent.DamageCause.FALLING_BLOCK,
+                EntityDamageEvent.DamageCause.LAVA,
+                EntityDamageEvent.DamageCause.FIRE,
+                EntityDamageEvent.DamageCause.FIRE_TICK,
+                EntityDamageEvent.DamageCause.DROWNING,
+                EntityDamageEvent.DamageCause.BLOCK_EXPLOSION,
+                EntityDamageEvent.DamageCause.ENTITY_EXPLOSION,
+                EntityDamageEvent.DamageCause.LIGHTNING,
+                EntityDamageEvent.DamageCause.MAGIC,
+                EntityDamageEvent.DamageCause.POISON,
+                EntityDamageEvent.DamageCause.WITHER
+        );
+    }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event) {

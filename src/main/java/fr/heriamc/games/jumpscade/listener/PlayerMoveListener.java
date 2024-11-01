@@ -1,6 +1,6 @@
 package fr.heriamc.games.jumpscade.listener;
 
-import fr.heriamc.bukkit.game.GameState;
+import fr.heriamc.api.game.GameState;
 import fr.heriamc.games.api.pool.GameManager;
 import fr.heriamc.games.jumpscade.JumpScadeGame;
 import org.bukkit.event.EventHandler;

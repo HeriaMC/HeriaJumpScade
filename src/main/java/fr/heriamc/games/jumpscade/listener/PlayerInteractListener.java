@@ -1,6 +1,6 @@
 package fr.heriamc.games.jumpscade.listener;
 
-import fr.heriamc.bukkit.game.GameState;
+import fr.heriamc.api.game.GameState;
 import fr.heriamc.games.jumpscade.JumpScadeAddon;
 import fr.heriamc.games.jumpscade.player.items.JumpScadeItems;
 import org.bukkit.event.EventHandler;

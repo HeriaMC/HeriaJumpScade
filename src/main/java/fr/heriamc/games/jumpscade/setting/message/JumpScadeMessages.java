@@ -61,7 +61,6 @@ public enum JumpScadeMessages {
         return formattedMessages.toArray(String[]::new);
     }
 
-
     public String getMessageWithoutPrefix() {
         return message;
     }

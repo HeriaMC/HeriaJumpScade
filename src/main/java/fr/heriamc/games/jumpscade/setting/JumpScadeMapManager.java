@@ -1,6 +1,6 @@
 package fr.heriamc.games.jumpscade.setting;
 
-import fr.heriamc.bukkit.game.GameState;
+import fr.heriamc.api.game.GameState;
 import fr.heriamc.games.engine.map.GameMapManager;
 import fr.heriamc.games.engine.map.slime.SlimeGameMap;
 import fr.heriamc.games.engine.map.slime.SlimeMap;

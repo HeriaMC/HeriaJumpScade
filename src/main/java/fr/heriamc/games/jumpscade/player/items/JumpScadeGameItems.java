@@ -1,15 +1,12 @@
 package fr.heriamc.games.jumpscade.player.items;
 
 import fr.heriamc.bukkit.utils.ItemBuilder;
-import fr.heriamc.games.engine.utils.CollectionUtils;
-import fr.heriamc.games.jumpscade.player.JumpScadePlayer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.EnumSet;
-import java.util.stream.Stream;
 
 @Getter
 @AllArgsConstructor
@@ -31,22 +28,5 @@ public enum JumpScadeGameItems {
     private final ItemStack itemStack;
 
     public static final EnumSet<JumpScadeGameItems> items = EnumSet.allOf(JumpScadeGameItems.class);
-
-    public static Stream<JumpScadeGameItems> getItemsAsStream() {
-        return items.stream();
-    }
-
-    /*
-        Envoyer un message avec nom de l'item + jouer un son
-        ex: "Vous avez reçus Boule de neige ect"
-
-        Verifier si la hotbar n'es pas remplie si remplie ne donne pas d'item
-     */
-
-    public static void giveRandomItem(JumpScadePlayer gamePlayer) {
-        CollectionUtils.random(items)
-                .map(JumpScadeGameItems::getItemStack)
-                .ifPresent(gamePlayer.getInventory()::addItem);
-    }
 
 }

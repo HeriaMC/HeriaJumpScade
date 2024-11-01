@@ -1,6 +1,6 @@
 package fr.heriamc.games.jumpscade.task;
 
-import fr.heriamc.bukkit.game.GameState;
+import fr.heriamc.api.game.GameState;
 import fr.heriamc.games.api.GameApi;
 import fr.heriamc.games.engine.utils.task.countdown.CountdownTask;
 import fr.heriamc.games.engine.utils.task.countdown.GameCountdownTask;

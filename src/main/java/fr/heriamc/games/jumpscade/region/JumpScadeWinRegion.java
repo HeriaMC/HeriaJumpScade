@@ -1,13 +1,16 @@
 package fr.heriamc.games.jumpscade.region;
 
-import fr.heriamc.bukkit.game.GameState;
+import fr.heriamc.api.game.GameState;
 import fr.heriamc.games.engine.region.GameRegion;
 import fr.heriamc.games.engine.region.RegionObserver;
 import fr.heriamc.games.engine.utils.concurrent.BukkitThreading;
 import fr.heriamc.games.jumpscade.JumpScadeGame;
 import fr.heriamc.games.jumpscade.player.JumpScadePlayer;
 import net.minecraft.server.v1_8_R3.*;
-import org.bukkit.*;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;

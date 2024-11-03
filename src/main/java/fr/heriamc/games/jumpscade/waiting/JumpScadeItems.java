@@ -1,6 +1,7 @@
-package fr.heriamc.games.jumpscade.player.items;
+package fr.heriamc.games.jumpscade.waiting;
 
 import fr.heriamc.bukkit.utils.ItemBuilder;
+import fr.heriamc.games.engine.waitingroom.WaitingRoomItems;
 import fr.heriamc.games.jumpscade.JumpScadeAddon;
 import fr.heriamc.games.jumpscade.player.JumpScadePlayer;
 import lombok.AllArgsConstructor;
@@ -17,10 +18,15 @@ import java.util.stream.Stream;
 
 @Getter
 @AllArgsConstructor
-public enum JumpScadeItems {
+public enum JumpScadeItems implements WaitingRoomItems {
 
-    TEAM_SELECTOR (4, new ItemBuilder(Material.CHEST).setName("§eÉquipes§8・§7Clic droit").build(), JumpScadeAddon::openTeamSelector),
-    LEAVE (8, new ItemBuilder(Material.BED).setName("§cQuitter§8・§7Clic droit").build(), JumpScadeAddon::redirectToHub);
+    TEAM_SELECTOR (4,
+            new ItemBuilder(Material.CHEST).setName("§eÉquipes§8・§7Clic droit").build(),
+            JumpScadeAddon::openTeamSelector),
+
+    LEAVE (8,
+            new ItemBuilder(Material.BED).setName("§cQuitter§8・§7Clic droit").build(),
+            JumpScadeAddon::redirectToHub);
 
     private final int slot;
     private final ItemStack itemStack;

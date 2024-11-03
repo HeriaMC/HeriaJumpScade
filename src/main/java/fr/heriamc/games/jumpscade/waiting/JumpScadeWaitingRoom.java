@@ -3,15 +3,14 @@ package fr.heriamc.games.jumpscade.waiting;
 import fr.heriamc.games.engine.waitingroom.GameWaitingRoom;
 import fr.heriamc.games.jumpscade.JumpScadeGame;
 import fr.heriamc.games.jumpscade.player.JumpScadePlayer;
-import fr.heriamc.games.jumpscade.player.items.JumpScadeItems;
 import fr.heriamc.games.jumpscade.task.JumpScadeStartingTask;
 import lombok.Getter;
 
 @Getter
-public class JumpScadeWaitingRoom extends GameWaitingRoom<JumpScadeGame, JumpScadePlayer> {
+public class JumpScadeWaitingRoom extends GameWaitingRoom<JumpScadeGame, JumpScadePlayer, JumpScadeItems> {
 
     public JumpScadeWaitingRoom(JumpScadeGame game) {
-        super(game);
+        super(game, JumpScadeItems.class);
         this.countdownTask = new JumpScadeStartingTask(game);
     }
 

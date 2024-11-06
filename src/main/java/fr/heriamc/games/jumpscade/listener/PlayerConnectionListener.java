@@ -6,7 +6,6 @@ import fr.heriamc.games.engine.utils.concurrent.VirtualThreading;
 import fr.heriamc.games.jumpscade.JumpScadeGame;
 import fr.heriamc.games.jumpscade.data.JumpScadeDataManager;
 import fr.heriamc.games.jumpscade.player.JumpScadePlayer;
-import fr.heriamc.games.jumpscade.utils.NameTag;
 import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,18 +18,9 @@ public record PlayerConnectionListener(JumpScadeDataManager dataManager) impleme
          var player = event.getPlayer();
          var gamePlayer = event.getGamePlayer();
 
-        NameTag.setNameTag(player, "§7", " ", 999);
-
          switch (game.getState()) {
             case WAIT, STARTING -> game.getWaitingRoom().processJoin(gamePlayer);
             case IN_GAME, END -> {
-                var rank = gamePlayer.getHeriaPlayer().getRank();
-
-                if (rank.getPower() >= 40 && gamePlayer.isSpectator()) {
-                    NameTag.setNameTag(player, rank.getPrefix(), " ", rank.getTabPriority());
-                    return;
-                }
-
                 /*
                  GIVE SPECTATOR ITEM OR do interface SpectatorState ...
                  class JumpScadePlayer implements SpectatorState {

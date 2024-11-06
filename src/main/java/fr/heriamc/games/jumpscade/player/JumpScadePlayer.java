@@ -2,8 +2,8 @@ package fr.heriamc.games.jumpscade.player;
 
 import fr.heriamc.games.engine.player.GamePlayer;
 import fr.heriamc.games.engine.team.GameTeam;
+import fr.heriamc.games.engine.utils.NameTag;
 import fr.heriamc.games.engine.utils.Pair;
-import fr.heriamc.games.jumpscade.utils.NameTag;
 import lombok.Getter;
 import org.bukkit.entity.EntityType;
 

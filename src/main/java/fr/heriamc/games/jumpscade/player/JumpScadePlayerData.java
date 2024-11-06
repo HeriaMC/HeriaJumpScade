@@ -16,6 +16,7 @@ public class JumpScadePlayerData implements SerializableData<UUID> {
     @SerializedName("id")
     private UUID identifier;
 
+    // ADD PLAYED GAMES WINS AND LOSES I GUESS
     private int kills, deaths;
 
     public JumpScadePlayerData updateKills(int kills) {
